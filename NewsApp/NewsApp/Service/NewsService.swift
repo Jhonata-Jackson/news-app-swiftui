@@ -24,7 +24,7 @@ struct NewsServiceImpl: NewsService {
                     return Fail(error: APIError.unknown).eraseToAnyPublisher()
                 }
                 
-                if(200...200).contains(response.statusCode) {
+                if(200...299).contains(response.statusCode) {
                     let jsonDecoder = JSONDecoder()
                     jsonDecoder.dateDecodingStrategy = .iso8601
                     return Just(data)
