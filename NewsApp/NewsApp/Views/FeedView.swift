@@ -10,27 +10,25 @@ import SwiftUI
 struct FeedView: View {
     
     @Environment(\.openURL) var openUrl
-    @StateObject var viewModel =  NewsViewModelImpl(service: NewsServiceImpl())
+    @StateObject var viewModel =  ArticleViewModelImpl(service: NewsServiceImpl())
     
     var body: some View {
-        Group {
-            switch viewModel.state {
-            case .loading:
-                ProgressView()
-            case .success(let articles):
-                NavigationView {
-                    List(articles) { item in
-                        ArticleView(article: item)
+        NavigationView {
+            Group {
+                switch viewModel.state {
+                case .failed(let error):
+                    ErrorView(error: error, handler: viewModel.getArticles)
+                default:
+                    List(viewModel.isLoading ? Article.dummyData : viewModel.articles) { item in
+                        ArticleView(isLoading: viewModel.isLoading, article: item)
                             .onTapGesture {
                                 load(url: item.url)
                             }
                     }
                     .navigationTitle(Text("News"))
                 }
-            case .failed(let error):
-                ErrorView(error: error, handler: viewModel.getArticles)
-            }
-        }.onAppear(perform: viewModel.getArticles)
+            }.onAppear(perform: viewModel.getArticles)
+        }
     }
     
     func load(url: String?) {
