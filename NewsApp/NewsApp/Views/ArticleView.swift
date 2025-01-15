@@ -21,7 +21,7 @@ struct ArticleView: View {
                         identifier: article.id.uuidString,
                         cachePolicy: .returnCacheElseLoad(
                             cacheDelay: nil,
-                            downloadDelay: 0.25)
+                            downloadDelay: 1)
                     ),
                     failure: { error, _ in
                         PlaceholderImageView()
@@ -43,6 +43,17 @@ struct ArticleView: View {
                 Text(article.source ?? "N/A")
                     .foregroundColor(.gray)
                     .font(.footnote)
+                
+                if let date = article.date {
+                    HStack(spacing: 4) {
+                        Text(date, style: .date)
+                            .foregroundColor(.gray)
+                            .font(.system(size: 12, weight: .bold))
+                        Text(date, style: .time)
+                            .foregroundColor(.gray)
+                            .font(.system(size: 12))
+                    }
+                }
             }
         }
     }
