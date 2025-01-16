@@ -9,6 +9,9 @@ import SwiftUI
 
 struct SettingsView: View {
     
+    @Binding var darkModeEnable: Bool
+    @Binding var systemThemeEnable: Bool
+    
     var body: some View {
         NavigationView {
             Form {
@@ -16,18 +19,30 @@ struct SettingsView: View {
                         footer: Text("System settings will override Dark Mode and user the current theme")
                 ) {
                     Toggle(
-                        isOn: .constant(true),
+                        isOn: $darkModeEnable,
                         label: {
                             Text("Dark Mode")
                         }
                     )
+                    .onChange(of: darkModeEnable, perform: { _ in
+                        SystemThemeManager.shared.handleTheme(
+                            darkMode: darkModeEnable,
+                            system: systemThemeEnable
+                        )
+                    })
                     
                     Toggle(
-                        isOn: .constant(true),
+                        isOn: $systemThemeEnable,
                         label: {
                             Text("Use system settings")
                         }
                     )
+                    .onChange(of: systemThemeEnable, perform: { _ in
+                        SystemThemeManager.shared.handleTheme(
+                            darkMode: darkModeEnable,
+                            system: systemThemeEnable
+                        )
+                    })
                 }
                 
                 Section {
@@ -43,7 +58,7 @@ struct SettingsView: View {
                          destination: URL(string: Constants.phone)!)
                     
                 }
-                .foregroundColor(.black)
+                .foregroundColor(Theme.textColor)
                 .font(.system(size: 14, weight: .semibold))
             }
             .navigationTitle("Settings")
@@ -52,5 +67,5 @@ struct SettingsView: View {
 }
 
 #Preview {
-    SettingsView()
+    SettingsView(darkModeEnable: .constant(false), systemThemeEnable: .constant(false))
 }

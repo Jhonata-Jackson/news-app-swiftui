@@ -27,7 +27,7 @@ struct ErrorView: View {
                 .padding(.bottom, 4)
             
             Text("Ooops!")
-                .foregroundColor(.black)
+                .foregroundColor(Theme.textColor)
                 .font(.system(size: 30, weight: .heavy))
                 .multilineTextAlignment(.center)
             
@@ -44,7 +44,7 @@ struct ErrorView: View {
             })
             .padding(.vertical, 12)
             .padding(.horizontal, 30)
-            .background(.black)
+            .background(Theme.textColor)
             .foregroundColor(.white)
             .font(.system(size: 15, weight: .heavy))
             .cornerRadius(10)
