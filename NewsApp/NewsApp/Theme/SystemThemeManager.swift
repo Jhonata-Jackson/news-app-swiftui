@@ -14,13 +14,7 @@ class SystemThemeManager {
     
     private init() {}
     
-    func handleTheme(darkMode: Bool, system: Bool) {
-        
-        guard !system else {
-            UIApplication.shared.windows.first?.overrideUserInterfaceStyle = .unspecified
-            return
-        }
-        
+    func handleTheme(darkMode: Bool) {
         UIApplication.shared.windows.first?.overrideUserInterfaceStyle = darkMode ? .dark : .light
     }
 }
